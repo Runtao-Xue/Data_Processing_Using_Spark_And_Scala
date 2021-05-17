@@ -1,4 +1,6 @@
 # Data_Processing_Using_Spark_And_Scala
+[\* Check the poster here]  
+https://github.com/Runtao-Xue/Data_Processing_Using_Spark_And_Scala/blob/main/Poster.pdf
 ## About The Project
 
 [\* This was an academic project]
