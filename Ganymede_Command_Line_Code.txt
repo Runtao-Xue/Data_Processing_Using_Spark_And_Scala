@@ -1,0 +1,46 @@
+// --STARTING SPARK SHELL--
+spark-shell --conf spark.ui.port=4057
+
+// --SETTING DATA PATH--
+val data_path = "./scratch/train.csv"
+// val data_path = "D:\\SparkCode\\src\\main\\resource\\train.csv"
+
+// --LOADING DATA--
+val df_raw = spark.read.format("csv").option("header","true").load(data_path)
+df_raw.show(10)
+println("Number of Observation:"+df_raw.count())
+
+// --DEAL WITH NULL VALUES--
+df_raw.describe().show()
+val df = df_raw.na.drop("any")
+df.describe().show()
+
+// --DEAL WITH DATA TYPES--
+df.printSchema()
+val df_typeready = df.withColumn("Age",col("Age").cast("Int"))
+	.withColumn("Flight Distance",col("Flight Distance").cast("Double"))
+	.withColumn("Inflight wifi service",col("Inflight wifi service").cast("Int"))
+	.withColumn("Departure/Arrival time convenient",col("Departure/Arrival time convenient").cast("Int"))
+	.withColumn("Ease of Online booking",col("Ease of Online booking").cast("Int"))
+	.withColumn("Gate location",col("Gate location").cast("Int"))
+	.withColumn("Food and drink",col("Food and drink").cast("Int"))
+	.withColumn("Online boarding",col("Online boarding").cast("Int"))
+	.withColumn("Seat comfort",col("Seat comfort").cast("Int"))
+	.withColumn("Inflight entertainment",col("Inflight entertainment").cast("Int"))
+	.withColumn("On-board service",col("On-board service").cast("Int"))
+	.withColumn("Leg room service",col("Leg room service").cast("Int"))
+	.withColumn("Baggage handling",col("Baggage handling").cast("Int"))
+	.withColumn("Checkin service",col("Checkin service").cast("Int"))
+	.withColumn("Inflight service",col("Inflight service").cast("Int"))
+	.withColumn("Cleanliness",col("Cleanliness").cast("Int"))
+	.withColumn("Departure Delay in Minutes",col("Departure Delay in Minutes").cast("Double"))
+	.withColumn("Arrival Delay in Minutes",col("Arrival Delay in Minutes").cast("Double"))
+
+df_typeready.printSchema()
+
+// --DROPING IRRELEVANT COLUMNS--
+val df_ready = df_typeready.drop("_c0").drop("id")
+df_ready.printSchema()
+
+// --WRITE DATA INTO JSON FILE--
+df_ready.write.json("./scratch/airline_data_json")
