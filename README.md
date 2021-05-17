@@ -26,7 +26,7 @@ In addition, the data used in this project is the survey data of airline passeng
 
 Runtao Xue - runtao.xue@gmail.com
 
-Project Link: 
+Project Link: https://github.com/Runtao-Xue/Data_Processing_Using_Spark_And_Scala
 
 ## Acknowledgements
 
